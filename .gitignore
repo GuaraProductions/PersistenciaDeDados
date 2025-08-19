@@ -2,6 +2,8 @@
 .godot/
 .nomedia
 
+bin/
+
 # Godot-specific ignores
 .import/
 export.cfg
