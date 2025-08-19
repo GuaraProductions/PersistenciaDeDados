@@ -1,0 +1,50 @@
+{
+  "jogador": {
+	"nome": "Guará",
+	"nivel": 12,
+	"experiencia": 3400,
+	"atributos": {
+	  "vida": 150,
+	  "mana": 80,
+	  "ataque": 25,
+	  "defesa": 18,
+	  "velocidade": 12,
+	  "sorte": 5
+	},
+	"status": {
+	  "vivo": true,
+	  "emBatalha": false,
+	  "buffs": ["força_extra", "resistencia_fogo"],
+	  "debuffs": []
+	},
+	"inventario": {
+	  "moedas": 235,
+	  "itens": [
+		{
+		  "nome": "Espada de Ferro",
+		  "tipo": "arma",
+		  "dano": 15,
+		  "durabilidade": 90
+		},
+		{
+		  "nome": "Poção de Cura",
+		  "tipo": "consumível",
+		  "efeito": "restaura_vida",
+		  "quantidade": 3
+		},
+		{
+		  "nome": "Botas Rápidas",
+		  "tipo": "equipamento",
+		  "bonus": {
+			"velocidade": 5
+		  }
+		}
+	  ]
+	},
+	"missaoAtual": {
+	  "titulo": "Derrotar o Dragão da Montanha",
+	  "progresso": "2/5",
+	  "concluida": false
+	}
+  }
+}

@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwjhxqkd76h4e"]
+
+[ext_resource type="Script" uid="uid://bl3y2s551f46p" path="res://json/exemplo_json.gd" id="1_eloic"]
+
+[node name="Exemplo-json" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+script = ExtResource("1_eloic")
+
+[node name="_" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="_" type="GridContainer" parent="_"]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+columns = 2
+
+[node name="NomeLabel" type="Label" parent="_/_"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Nome:"
+
+[node name="NomeLineEdit" type="LineEdit" parent="_/_"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 36
+
+[node name="VidaLabel" type="Label" parent="_/_"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Vida:"
+
+[node name="VidaLineEdit" type="LineEdit" parent="_/_"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 36
+
+[node name="Ataque" type="Label" parent="_/_"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Ataque:"
+
+[node name="AtaqueLineEdit" type="LineEdit" parent="_/_"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_font_sizes/font_size = 36
+
+[node name="Opcoes" type="HBoxContainer" parent="_"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Carregar" type="Button" parent="_/Opcoes"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Carregar"
+
+[node name="Salvar" type="Button" parent="_/Opcoes"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Salvar"
+
+[connection signal="pressed" from="_/Opcoes/Carregar" to="." method="_on_carregar_pressed"]
+[connection signal="pressed" from="_/Opcoes/Salvar" to="." method="_on_salvar_pressed"]
