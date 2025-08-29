@@ -1,8 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwjhxqkd76h4e"]
+[gd_scene load_steps=5 format=3 uid="uid://b7m0qjkg5vwqk"]
 
-[ext_resource type="Script" uid="uid://ctwklt7hxahqr" path="res://config_file/Exemplo1/exemplo_config.gd" id="1_eloic"]
+[ext_resource type="Script" uid="uid://ctwklt7hxahqr" path="res://config_file/Exemplo1/exemplo_config.gd" id="1_pdfkc"]
 
-[node name="Exemplo-json" type="MarginContainer"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pdfkc"]
+
+[sub_resource type="Sky" id="Sky_tvswo"]
+sky_material = SubResource("ProceduralSkyMaterial_pdfkc")
+
+[sub_resource type="Environment" id="Environment_p431d"]
+sky = SubResource("Sky_tvswo")
+ambient_light_source = 3
+
+[node name="Exemplo-config" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,7 +21,7 @@ theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
-script = ExtResource("1_eloic")
+script = ExtResource("1_pdfkc")
 
 [node name="_" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -73,6 +82,9 @@ text = "Carregar"
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "Salvar"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_p431d")
 
 [connection signal="pressed" from="_/Opcoes/Carregar" to="." method="_on_carregar_pressed"]
 [connection signal="pressed" from="_/Opcoes/Salvar" to="." method="_on_salvar_pressed"]

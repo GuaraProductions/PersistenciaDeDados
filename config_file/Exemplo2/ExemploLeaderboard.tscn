@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://obme56k72pba"]
+
+[ext_resource type="Script" uid="uid://cr774ixwoygt4" path="res://config_file/Exemplo2/exemplo_leaderboard.gd" id="1_1gfq8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gfq8"]
+bg_color = Color(0.0984565, 0.0969321, 0.0842659, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q3wpa"]
+content_margin_left = 15.0
+content_margin_top = 15.0
+content_margin_right = 15.0
+content_margin_bottom = 15.0
+bg_color = Color(0.140447, 0.140447, 0.140447, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2f4x"]
+bg_color = Color(0.129412, 0.129412, 0.129412, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ggx5r"]
+bg_color = Color(0.129558, 0.129559, 0.129558, 1)
+
+[node name="ExemploLeaderboard" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 35
+theme_override_constants/margin_top = 35
+theme_override_constants/margin_right = 35
+theme_override_constants/margin_bottom = 35
+script = ExtResource("1_1gfq8")
+estilo = SubResource("StyleBoxFlat_1gfq8")
+estilo_cabecalho = SubResource("StyleBoxFlat_q3wpa")
+
+[node name="_" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Titulo" type="Label" parent="_"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "Placar"
+horizontal_alignment = 1
+
+[node name="PainelLeaderboard" type="PanelContainer" parent="_"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_u2f4x")
+
+[node name="_" type="VBoxContainer" parent="_/PainelLeaderboard"]
+layout_mode = 2
+
+[node name="Cabecalho" type="HBoxContainer" parent="_/PainelLeaderboard/_"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+
+[node name="_" type="ScrollContainer" parent="_/PainelLeaderboard/_"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ggx5r")
+
+[node name="ScoreGrid" type="GridContainer" parent="_/PainelLeaderboard/_/_"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3

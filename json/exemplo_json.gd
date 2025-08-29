@@ -1,3 +1,4 @@
+
 extends MarginContainer
 
 @onready var nome_line_edit: LineEdit = %NomeLineEdit
@@ -53,6 +54,4 @@ func _on_carregar_pressed() -> void:
 	nome_line_edit.text = dados["nome"]
 	vida_line_edit.text = "%d" % dados["vida"]
 	ataque_line_edit.text = "%d" % dados["ataque"]
-	
-	
 	
