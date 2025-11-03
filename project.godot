@@ -14,7 +14,7 @@ config/name="PersistenciaDeDados"
 run/main_scene="uid://cwjhxqkd76h4e"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="PersistenciaDeDados"
-config/features=PackedStringArray("4.4", "Mobile")
+config/features=PackedStringArray("4.5", "Mobile")
 config/icon="res://icon.svg"
 
 [rendering]

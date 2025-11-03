@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://6w0lrxoh8ac5"]
+
+[ext_resource type="Script" uid="uid://gslrbvsn0teg" path="res://resource/Exemplo4/exemplo4.gd" id="1_lkyvm"]
+[ext_resource type="Script" uid="uid://b60xx6565ib3o" path="res://resource/Exemplo4/DadosPessoa.gd" id="2_djp2g"]
+
+[sub_resource type="Resource" id="Resource_quque"]
+script = ExtResource("2_djp2g")
+nome = "Guará"
+dia_nascimento = 15
+mes_nascimento = 5
+ano_nascimento = 1975
+metadata/_custom_type_script = "uid://b60xx6565ib3o"
+
+[node name="Exemplo4" type="Node"]
+script = ExtResource("1_lkyvm")
+dados_pessoa = SubResource("Resource_quque")

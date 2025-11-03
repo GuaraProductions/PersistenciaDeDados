@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ktxvs71t4pv"]
+
+[ext_resource type="Script" path="res://crud/teste_generico.gd" id="1_teste"]
+
+[node name="TesteGenerico" type="Node"]
+script = ExtResource("1_teste")

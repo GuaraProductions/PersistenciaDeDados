@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://bucwyqdp7bjev"]
+
+[ext_resource type="Script" uid="uid://dbv35lvnnm1g1" path="res://resource/Exemplo6/Exemplo6a/Exemplo6a.gd" id="1_iaptw"]
+
+[node name="Exemplo6a" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iaptw")
+flags_resource = 2

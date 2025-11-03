@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="RecursoFilho" load_steps=2 format=3 uid="uid://dhc3fstwpf1b7"]
+
+[ext_resource type="Script" uid="uid://drm4erhskdol0" path="res://resource/Exemplo6/RecursoFilho.gd" id="1_weaep"]
+
+[resource]
+script = ExtResource("1_weaep")
+valor = 567
+metadata/_custom_type_script = "uid://drm4erhskdol0"

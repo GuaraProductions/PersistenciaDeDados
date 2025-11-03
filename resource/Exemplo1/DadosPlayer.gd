@@ -1,0 +1,2 @@
+extends DadosPersonagem
+class_name DadosPlayer

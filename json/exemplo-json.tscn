@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cwjhxqkd76h4e"]
 
-[ext_resource type="Script" uid="uid://ctwklt7hxahqr" path="res://config_file/Exemplo1/exemplo_config.gd" id="1_eloic"]
+[ext_resource type="Script" uid="uid://bl3y2s551f46p" path="res://json/exemplo_json.gd" id="1_eloic"]
 
 [node name="Exemplo-json" type="MarginContainer"]
 anchors_preset = 15

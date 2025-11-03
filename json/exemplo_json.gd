@@ -5,7 +5,7 @@ extends MarginContainer
 @onready var vida_line_edit: LineEdit = %VidaLineEdit
 @onready var ataque_line_edit: LineEdit = %AtaqueLineEdit
 
-const nome_do_arquivo : String = "res://save.json"
+const nome_do_arquivo : String = "user://save.json"
 
 func _ready() -> void:
 	_on_carregar_pressed()

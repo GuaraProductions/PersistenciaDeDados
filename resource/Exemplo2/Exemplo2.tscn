@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7m0qjkg5vwqk"]
+[gd_scene load_steps=2 format=3 uid="uid://bj5gdjbnq2ev6"]
 
-[ext_resource type="Script" uid="uid://ctwklt7hxahqr" path="res://config_file/Exemplo1/exemplo_config.gd" id="1_pdfkc"]
+[ext_resource type="Script" uid="uid://kexf63wuejp4" path="res://resource/Exemplo2/Exemplo2.gd" id="1_r7ios"]
 
-[node name="Exemplo-config" type="MarginContainer"]
+[node name="Exemplo2" type="MarginContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -12,7 +12,8 @@ theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
-script = ExtResource("1_pdfkc")
+script = ExtResource("1_r7ios")
+flags_resource = 40
 
 [node name="_" type="VBoxContainer" parent="."]
 layout_mode = 2

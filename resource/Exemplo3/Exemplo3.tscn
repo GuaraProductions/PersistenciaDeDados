@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://sndlvyogfied"]
+
+[ext_resource type="Script" uid="uid://db7mtqtfyueqs" path="res://resource/Exemplo3/node.gd" id="1_ivs3u"]
+[ext_resource type="Resource" uid="uid://y0k6qx6708bv" path="res://resource/Exemplo3/CarroTest.tres" id="2_rnebl"]
+[ext_resource type="Script" uid="uid://chbtirpkgxxct" path="res://resource/Exemplo3/node_2.gd" id="2_uj6y2"]
+
+[node name="CarroTest" type="Node"]
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("1_ivs3u")
+carro = ExtResource("2_rnebl")
+
+[node name="Node2" type="Node" parent="."]
+script = ExtResource("2_uj6y2")
+carro = ExtResource("2_rnebl")

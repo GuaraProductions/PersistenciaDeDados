@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="RecursoFilho" load_steps=2 format=3 uid="uid://dy4bkdrbjc2ag"]
+
+[ext_resource type="Script" uid="uid://drm4erhskdol0" path="res://resource/Exemplo6/RecursoFilho.gd" id="1_g7bkw"]
+
+[resource]
+script = ExtResource("1_g7bkw")
+valor = 123
+arranjo = Array[String](["item1", "item2", "item3"])
+metadata/_custom_type_script = "uid://drm4erhskdol0"

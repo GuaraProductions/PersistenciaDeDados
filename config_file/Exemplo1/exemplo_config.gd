@@ -3,7 +3,6 @@ extends MarginContainer
 @onready var nome_line_edit: LineEdit = %NomeLineEdit
 @onready var vida_line_edit: LineEdit = %VidaLineEdit
 @onready var ataque_line_edit: LineEdit = %AtaqueLineEdit
-@onready var world_environment: WorldEnvironment = $WorldEnvironment
 
 const nome_do_arquivo : String = "user://save.cfg"
 
