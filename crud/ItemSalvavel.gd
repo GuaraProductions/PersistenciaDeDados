@@ -22,30 +22,21 @@ func to_bytes() -> PackedByteArray:
 	return buffer.data_array
 
 func from_bytes(data: PackedByteArray) -> void:
-	if data.size() < 8:  # Mínimo: 4 bytes (tamanho) + 0 bytes (string vazia) + 4 bytes (quantidade)
-		push_error("ItemSalvavel: dados insuficientes recebidos (tamanho: %d)" % data.size())
+	if data.size() < 8:
+		push_error("Impossivel carregar esses dados")
 		return
-	
+		
 	var buffer := StreamPeerBuffer.new()
 	buffer.data_array = data
 	
-	# Lê o tamanho da string
 	var nome_size := buffer.get_32()
-	if nome_size < 0 or nome_size > 10000:  # Proteção contra valores absurdos
-		push_error("ItemSalvavel: tamanho de nome inválido: %d" % nome_size)
+	var resultado := buffer.get_data(nome_size)
+	
+	if resultado[0] != OK:
+		printerr("Nao foi possivel carregar os dados")
 		return
-	
-	# Verifica se há bytes suficientes
-	if data.size() < 8 + nome_size:
-		push_error("ItemSalvavel: dados insuficientes para ler nome (esperado: %d, total: %d)" % [8 + nome_size, data.size()])
-		return
-	
-	# Lê os bytes do nome
-	var resultado := buffer.get_data(nome_size)  # get_data retorna [erro, dados]
-	var nome_bytes: PackedByteArray = resultado[1]
-	nome = nome_bytes.get_string_from_utf8()
-	
-	# Lê a quantidade
+		
+	nome = resultado[1].get_string_from_utf8()
 	quantidade = buffer.get_32()
 
 func _to_string() -> String:

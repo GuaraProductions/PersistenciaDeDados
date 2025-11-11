@@ -24,9 +24,8 @@ func cor_destaque(texto: String) -> String:
 func _ready() -> void:
 	print_rich(cor_titulo("=== TESTE COMPLETO DO CRUD BINÁRIO ===\n"))
 	
-	# Criar instância do CRUD
-	crud = BinarioCRUD.new()
-	add_child(crud)
+	# Criar instância do CRUD com a classe ItemSalvavel
+	crud = BinarioCRUD.new(ItemSalvavel)
 	
 	# Limpar dados anteriores para começar do zero
 	crud.limpar_tudo()
@@ -154,7 +153,7 @@ func teste_validacoes() -> void:
 	
 	# Tentar criar item inválido (nome vazio)
 	print_rich("1. Tentando criar item com nome vazio...")
-	var item_invalido := ItemSalvavel.new("", 10)
+	var item_invalido := PersonagemSalvavel.new("")
 	var id := crud.criar(item_invalido)
 	if id < 0:
 		print_rich("  " + cor_sucesso("✓") + " Validação funcionou: item inválido rejeitado\n")

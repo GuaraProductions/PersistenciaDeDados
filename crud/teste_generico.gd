@@ -19,12 +19,13 @@ func _ready() -> void:
 func testar_crud_com_items() -> void:
 	print_rich("[color=yellow][b]▶ Testando CRUD com ItemSalvavel[/b][/color]")
 	
-	var crud := BinarioCRUD.new()
-	crud.caminho_arquivo = "user://test_items_genericos.dat"
+	# Criar CRUD com a classe ItemSalvavel
+	var crud := BinarioCRUD.new(ItemSalvavel)
+	crud.file_path = "user://test_items_genericos.dat"
 	
 	# Limpar arquivo anterior
-	if FileAccess.file_exists(crud.caminho_arquivo):
-		DirAccess.remove_absolute(crud.caminho_arquivo)
+	if FileAccess.file_exists(crud.file_path):
+		DirAccess.remove_absolute(crud.file_path)
 	
 	# Criar items
 	var item1 := ItemSalvavel.new("Poção de Vida", 5)
@@ -62,15 +63,16 @@ func testar_crud_com_items() -> void:
 func testar_crud_com_personagens() -> void:
 	print_rich("[color=yellow][b]▶ Testando CRUD com PersonagemSalvavel[/b][/color]")
 	
-	var crud := BinarioCRUD.new()
-	crud.caminho_arquivo = "user://test_personagens_genericos.dat"
-	
-	# Limpar arquivo anterior
-	if FileAccess.file_exists(crud.caminho_arquivo):
-		DirAccess.remove_absolute(crud.caminho_arquivo)
-	
 	# Carregar classe dinamicamente
 	var PersonagemClass = load("res://crud/PersonagemSalvavel.gd")
+	
+	# Criar CRUD com a classe PersonagemSalvavel
+	var crud := BinarioCRUD.new(PersonagemClass)
+	crud.file_path = "user://test_personagens_genericos.dat"
+	
+	# Limpar arquivo anterior
+	if FileAccess.file_exists(crud.file_path):
+		DirAccess.remove_absolute(crud.file_path)
 	
 	# Criar personagens
 	var p1 = PersonagemClass.new("Aragorn", 45, 850, 200, 98500)
@@ -115,12 +117,13 @@ func testar_crud_com_personagens() -> void:
 func testar_incompatibilidade_de_tipos() -> void:
 	print_rich("[color=yellow][b]▶ Testando validação de tipos incompatíveis[/b][/color]")
 	
-	var crud := BinarioCRUD.new()
-	crud.caminho_arquivo = "user://test_tipo_unico.dat"
+	# Criar CRUD com a classe ItemSalvavel
+	var crud := BinarioCRUD.new(ItemSalvavel)
+	crud.file_path = "user://test_tipo_unico.dat"
 	
 	# Limpar arquivo anterior
-	if FileAccess.file_exists(crud.caminho_arquivo):
-		DirAccess.remove_absolute(crud.caminho_arquivo)
+	if FileAccess.file_exists(crud.file_path):
+		DirAccess.remove_absolute(crud.file_path)
 	
 	# Criar com ItemSalvavel
 	var item := ItemSalvavel.new("Espada Lendária", 1)
@@ -144,11 +147,12 @@ func testar_incompatibilidade_de_tipos() -> void:
 	print_rich("  [color=gray]→ Total de registros: %d (esperado: 1)[/color]" % items.size())
 	
 	# Criar novo CRUD do zero para PersonagemSalvavel
-	var crud2 := BinarioCRUD.new()
-	crud2.caminho_arquivo = "user://test_tipo_novo.dat"
+	var PersonagemClass2 = load("res://crud/PersonagemSalvavel.gd")
+	var crud2 := BinarioCRUD.new(PersonagemClass2)
+	crud2.file_path = "user://test_tipo_novo.dat"
 	
-	if FileAccess.file_exists(crud2.caminho_arquivo):
-		DirAccess.remove_absolute(crud2.caminho_arquivo)
+	if FileAccess.file_exists(crud2.file_path):
+		DirAccess.remove_absolute(crud2.file_path)
 	
 	var id3 := crud2.criar(personagem)
 	print_rich("  [color=gray]→ PersonagemSalvavel criado em novo arquivo com ID: %d[/color]" % id3)

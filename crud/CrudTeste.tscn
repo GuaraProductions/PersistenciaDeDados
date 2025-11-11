@@ -1,10 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8unad8vvospj"]
+[gd_scene load_steps=2 format=3 uid="uid://c8unad8vvospj"]
 
 [ext_resource type="Script" uid="uid://3r1jqkor6bi4" path="res://crud/crud_teste.gd" id="1_68sox"]
-[ext_resource type="Script" uid="uid://bj7yakdklg26" path="res://crud/crud.gd" id="2_ipkqh"]
 
 [node name="CrudTeste" type="Node"]
 script = ExtResource("1_68sox")
-
-[node name="Crud" type="Node" parent="."]
-script = ExtResource("2_ipkqh")
