@@ -311,28 +311,44 @@ func atualizar(indice_id: int, novo_obj: Variant) -> bool:
 		push_error("BinarioCRUD: Erro ao abrir arquivo: %s" % FileAccess.get_open_error())
 		return false
 	
-	# Marca o registro antigo como removido (lápide = 1)
+	# Lê o tamanho do registro antigo
 	var pos_antigo := _indice[indice_id]
 	file.seek(pos_antigo)
-	file.store_8(LAPIDE_REMOVIDO)
+	var _lapide_antiga := file.get_8()
+	var tamanho_antigo := file.get_32()
 	
-	# Cria novo registro no final do arquivo
-	file.seek_end()
-	var pos_novo := file.get_position()
+	# Serializa o novo objeto
+	var bytes_novos: PackedByteArray = novo_obj.call(METODO_SERIALIZAR)
+	var tamanho_novo := bytes_novos.size()
 	
-	# Serializa o novo objeto usando o método definido na interface
-	var bytes: PackedByteArray = novo_obj.call(METODO_SERIALIZAR)
-	
-	# Estrutura do registro: [lápide: 1 byte] [tamanho: 4 bytes] [dados: N bytes]
-	file.store_8(LAPIDE_ATIVO)
-	file.store_32(bytes.size())
-	file.store_buffer(bytes)
-	file.close()
-	
-	# Atualiza o índice com a nova posição
-	_indice[indice_id] = pos_novo
-	_log("BinarioCRUD: Registro %d atualizado (nova posição: %d)" % [indice_id, pos_novo])
-	return true
+	# Se o novo registro cabe no espaço do antigo, faz overlap
+	if tamanho_novo <= tamanho_antigo:
+		# Volta para o início do registro e sobrescreve
+		file.seek(pos_antigo)
+		file.store_8(LAPIDE_ATIVO)
+		file.store_32(tamanho_novo)
+		file.store_buffer(bytes_novos)
+		file.close()
+		
+		_log("BinarioCRUD: Registro %d atualizado in-place (posição: %d)" % [indice_id, pos_antigo])
+		# Índice permanece o mesmo (mesma posição)
+		return true
+	else:
+		# Registro novo é maior, precisa deletar o antigo e criar no final
+		file.close()
+		
+		_log("BinarioCRUD: Registro %d maior que o espaço disponível, movendo para o final" % indice_id)
+		
+		# Deleta o registro antigo
+		if not deletar(indice_id):
+			return false
+		
+		# Cria o novo registro no final
+		var novo_id := criar(novo_obj)
+		if novo_id == -1:
+			return false
+		
+		return true
 
 ## Marca um registro como deletado (soft delete usando lápide). Remove o registro do índice em memória. Retorna true se a deleção foi bem-sucedida
 func deletar(indice_id: int) -> bool:

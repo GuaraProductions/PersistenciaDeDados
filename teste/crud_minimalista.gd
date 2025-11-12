@@ -19,7 +19,7 @@ const METODO_SERIALIZAR: String = "to_bytes"
 const METODO_DESSERIALIZAR: String = "from_bytes"
 
 # Caminho do arquivo de dados binário
-var _file_path: String = "user://dados_crud.dat"
+var _file_path: String = ""
 # Lista de posições válidas (offsets no arquivo) - PRIVADA
 var _indice: Array[int] = []
 # Armazena a classe dos objetos gerenciados - PRIVADA
@@ -35,16 +35,6 @@ func _init(classe_obj: GDScript = null, file_path: String = DEFAULT_PATH) -> voi
 	
 	_file_path = file_path
 	carregar_indice()
-
-func get_tipo_classe() -> GDScript:
-	return _tipo_classe
-
-func set_tipo_classe(classe: GDScript) -> void:
-	
-	if _tipo_classe == null:
-		_tipo_classe = classe
-	else:
-		printerr("Classe já definida, não pode mudar após configuração inicial")
 
 ## Define o tipo de classe que este CRUD irá gerenciar. Útil quando o CRUD foi criado sem especificar a classe no construtor
 func definir_tipo_classe(classe: Variant) -> void:
@@ -69,28 +59,6 @@ func _validar_classe(classe: GDScript) -> bool:
 	
 	if not instancia_teste.has_method(METODO_DESSERIALIZAR):
 		push_error("BinarioCRUD: Classe não possui o método '%s'" % METODO_DESSERIALIZAR)
-		return false
-	
-	return true
-
-# Valida se um objeto possui os métodos necessários para serialização
-func _validar_interface_serializavel(obj: Variant) -> bool:
-	if obj == null:
-		push_error("BinarioCRUD: Objeto é nulo")
-		return false
-	
-	# Verifica se possui o método de serialização
-	if not obj.has_method(METODO_SERIALIZAR):
-		push_error("BinarioCRUD: Objeto não possui o método '%s'" % METODO_SERIALIZAR)
-		return false
-	
-	# Verifica se possui o método de desserialização
-	if not obj.has_method(METODO_DESSERIALIZAR):
-		push_error("BinarioCRUD: Objeto não possui o método '%s'" % METODO_DESSERIALIZAR)
-		return false
-	
-	if not obj.get_script() == _tipo_classe:
-		push_error("BinarioCRUD: Objeto não possui o método '%s'" % METODO_DESSERIALIZAR)
 		return false
 	
 	return true
@@ -131,47 +99,11 @@ func carregar_indice() -> void:
 	
 	file.close()
 
-## Retorna o número de registros ativos
-func contar() -> int:
-	return _indice.size()
-
-## Limpa todos os dados (apaga o arquivo e o índice) Use com cuidado - esta operação é irreversível!
-func limpar_tudo() -> bool:
-	if FileAccess.file_exists(_file_path):
-		var erro := DirAccess.remove_absolute(_file_path)
-		if erro != OK:
-			push_error("BinarioCRUD: Erro ao remover arquivo: %s" % erro)
-			return false
-	_indice.clear()
-	return true
-
-## Verifica se um ID de índice é válido
-func indice_valido(indice_id: int) -> bool:
-	return indice_id >= 0 and indice_id < _indice.size()
-
-## Retorna o tipo de classe gerenciado por este CRUD
-func obter_tipo_classe() -> Variant:
-	return _tipo_classe
-
-## Verifica se um objeto é compatível com o tipo gerenciado por este CRUD
-func eh_tipo_compativel(obj: Variant) -> bool:
-	if obj == null:
-		return false
-	
-	if _tipo_classe == null:
-		return _validar_interface_serializavel(obj)
-	
-	return obj.get_script() == _tipo_classe and _validar_interface_serializavel(obj)
-
 ## Cria um novo registro no arquivo. Retorna o ID (índice) do registro criado, ou -1 em caso de erro
 func criar(obj: Variant) -> int:
 	# Validar interface
 	if not _validar_interface_serializavel(obj):
 		return -1
-	
-	# Define o tipo de classe na primeira criação (se não foi definido no construtor)
-	if _tipo_classe == null:
-		_tipo_classe = obj.get_script()
 	
 	# Abre o arquivo para leitura/escrita, ou cria se não existir
 	var file := FileAccess.open(_file_path, FileAccess.READ_WRITE)
@@ -198,37 +130,6 @@ func criar(obj: Variant) -> int:
 	# Adiciona ao índice
 	_indice.append(pos)
 	return _indice.size() - 1  # Retorna o ID do índice
-
-## Lê todos os registros válidos (não deletados). Retorna um Array com todos os objetos
-func ler_todos() -> Array:
-	var lista: Array = []
-	
-	if _tipo_classe == null:
-		push_error("BinarioCRUD: Tipo de classe não foi definido. Use definir_tipo_classe() ou crie um registro primeiro")
-		return lista
-	
-	if not FileAccess.file_exists(_file_path):
-		return lista
-	
-	var file := FileAccess.open(_file_path, FileAccess.READ)
-	if file == null:
-		push_error("BinarioCRUD: Erro ao abrir arquivo para leitura: %s" % FileAccess.get_open_error())
-		return lista
-	
-	# Percorre todos os registros do índice
-	for pos in _indice:
-		file.seek(pos)
-		var _lapide := file.get_8()  # Pula o byte da lápide
-		var tamanho := file.get_32()
-		var dados := file.get_buffer(tamanho)
-		
-		# Cria nova instância e desserializa usando o método definido na interface
-		var obj: Variant = _tipo_classe.new()
-		obj.call(METODO_DESSERIALIZAR, dados)
-		lista.append(obj)
-	
-	file.close()
-	return lista
 
 ## Lê um único registro pelo seu ID (índice). Retorna o objeto ou null se não encontrado
 func ler_um(indice_id: int) -> Variant:
@@ -277,27 +178,41 @@ func atualizar(indice_id: int, novo_obj: Variant) -> bool:
 		push_error("BinarioCRUD: Erro ao abrir arquivo: %s" % FileAccess.get_open_error())
 		return false
 	
-	# Marca o registro antigo como removido (lápide = 1)
+	# Lê o tamanho do registro antigo
 	var pos_antigo := _indice[indice_id]
 	file.seek(pos_antigo)
-	file.store_8(LAPIDE_REMOVIDO)
+	var _lapide_antiga := file.get_8()
+	var tamanho_antigo := file.get_32()
 	
-	# Cria novo registro no final do arquivo
-	file.seek_end()
-	var pos_novo := file.get_position()
+	# Serializa o novo objeto
+	var bytes_novos: PackedByteArray = novo_obj.call(METODO_SERIALIZAR)
+	var tamanho_novo := bytes_novos.size()
 	
-	# Serializa o novo objeto usando o método definido na interface
-	var bytes: PackedByteArray = novo_obj.call(METODO_SERIALIZAR)
-	
-	# Estrutura do registro: [lápide: 1 byte] [tamanho: 4 bytes] [dados: N bytes]
-	file.store_8(LAPIDE_ATIVO)
-	file.store_32(bytes.size())
-	file.store_buffer(bytes)
-	file.close()
-	
-	# Atualiza o índice com a nova posição
-	_indice[indice_id] = pos_novo
-	return true
+	# Se o novo registro cabe no espaço do antigo, faz overlap
+	if tamanho_novo <= tamanho_antigo:
+		# Volta para o início do registro e sobrescreve
+		file.seek(pos_antigo)
+		file.store_8(LAPIDE_ATIVO)
+		file.store_32(tamanho_novo)
+		file.store_buffer(bytes_novos)
+		file.close()
+		
+		# Índice permanece o mesmo (mesma posição)
+		return true
+	else:
+		# Registro novo é maior, precisa deletar o antigo e criar no final
+		file.close()
+		
+		# Deleta o registro antigo
+		if not deletar(indice_id):
+			return false
+		
+		# Cria o novo registro no final
+		var novo_id := criar(novo_obj)
+		if novo_id == -1:
+			return false
+		
+		return true
 
 ## Marca um registro como deletado (soft delete usando lápide). Remove o registro do índice em memória. Retorna true se a deleção foi bem-sucedida
 func deletar(indice_id: int) -> bool:
@@ -319,3 +234,57 @@ func deletar(indice_id: int) -> bool:
 	# Remove do índice em memória
 	_indice.remove_at(indice_id)
 	return true
+
+func get_tipo_classe() -> GDScript:
+	return _tipo_classe
+
+func set_tipo_classe(classe: GDScript) -> void:
+	
+	if _tipo_classe == null:
+		_tipo_classe = classe
+	else:
+		printerr("Classe já definida, não pode mudar após configuração inicial")
+
+# Valida se um objeto possui os métodos necessários para serialização
+func _validar_interface_serializavel(obj: Variant) -> bool:
+	if obj == null:
+		push_error("BinarioCRUD: Objeto é nulo")
+		return false
+	
+	# Verifica se possui o método de serialização
+	if not obj.has_method(METODO_SERIALIZAR):
+		push_error("BinarioCRUD: Objeto não possui o método '%s'" % METODO_SERIALIZAR)
+		return false
+	
+	# Verifica se possui o método de desserialização
+	if not obj.has_method(METODO_DESSERIALIZAR):
+		push_error("BinarioCRUD: Objeto não possui o método '%s'" % METODO_DESSERIALIZAR)
+		return false
+	
+	if not obj.get_script() == _tipo_classe:
+		push_error("BinarioCRUD: Objeto não possui o método '%s'" % METODO_DESSERIALIZAR)
+		return false
+	
+	return true
+
+## Retorna o número de registros ativos
+func contar() -> int:
+	return _indice.size()
+
+## Verifica se um ID de índice é válido
+func indice_valido(indice_id: int) -> bool:
+	return indice_id >= 0 and indice_id < _indice.size()
+
+## Retorna o tipo de classe gerenciado por este CRUD
+func obter_tipo_classe() -> Variant:
+	return _tipo_classe
+
+## Verifica se um objeto é compatível com o tipo gerenciado por este CRUD
+func eh_tipo_compativel(obj: Variant) -> bool:
+	if obj == null:
+		return false
+	
+	if _tipo_classe == null:
+		return _validar_interface_serializavel(obj)
+	
+	return obj.get_script() == _tipo_classe and _validar_interface_serializavel(obj)
