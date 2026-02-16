@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyyalvqhirgt8"]
+
+[ext_resource type="Script" uid="uid://dk4cwrogol3d7" path="res://sql/AppSQL/Main.gd" id="1_dqkvl"]
+[ext_resource type="Script" uid="uid://doss2re5jc4uu" path="res://sql/AppSQL/SQLController.gd" id="1_lyc05"]
+
+[node name="Main" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dqkvl")
+
+[node name="_" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="_" type="VBoxContainer" parent="_"]
+layout_mode = 2
+
+[node name="Options" type="GridContainer" parent="_/_"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="InsertPlayer" type="Button" parent="_/_/Options"]
+layout_mode = 2
+text = "Insert Player"
+
+[node name="QueryData" type="Button" parent="_/_/Options"]
+layout_mode = 2
+text = "Query Data"
+
+[node name="UpdatePlayer" type="Button" parent="_/_/Options"]
+layout_mode = 2
+text = "Update Player"
+
+[node name="DeletePlayer" type="Button" parent="_/_/Options"]
+layout_mode = 2
+text = "Delete Player"
+
+[node name="ClearDatabase" type="Button" parent="_/_"]
+layout_mode = 2
+text = "Clear Database"
+
+[node name="SQLController" type="Node" parent="."]
+script = ExtResource("1_lyc05")
+
+[connection signal="pressed" from="_/_/Options/InsertPlayer" to="." method="_on_insert_player_pressed"]
+[connection signal="pressed" from="_/_/Options/QueryData" to="." method="_on_query_data_pressed"]
+[connection signal="pressed" from="_/_/Options/UpdatePlayer" to="." method="_on_update_player_pressed"]
+[connection signal="pressed" from="_/_/Options/DeletePlayer" to="." method="_on_delete_player_pressed"]
+[connection signal="pressed" from="_/_/ClearDatabase" to="." method="_on_clear_database_pressed"]

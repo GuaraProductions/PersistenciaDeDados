@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c70hkbvlmxj75"]
+
+[ext_resource type="Script" uid="uid://dc4h7w3q1pydk" path="res://GerenciamentoDeEstados/GerenciamentoDeEstados.gd" id="1_54toc"]
+[ext_resource type="Resource" uid="uid://ddlgu4owc6h0i" path="res://Player/StatusPlayer.tres" id="2_tv6u3"]
+
+[node name="GerenciamentoDeEstados" type="Node" unique_id=1800414892]
+script = ExtResource("1_54toc")
+estados = Array[Resource]([ExtResource("2_tv6u3")])

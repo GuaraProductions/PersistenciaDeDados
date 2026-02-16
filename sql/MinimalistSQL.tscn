@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c24kurgxxykk7"]
+
+[ext_resource type="Script" uid="uid://b373ktx05vb7y" path="res://sql/MinimalistSQL.gd" id="1_6e1we"]
+
+[node name="MinimalistSQL" type="Node"]
+script = ExtResource("1_6e1we")

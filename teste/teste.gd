@@ -1,11 +1,8 @@
 extends Node
 
 
-
-func _ready() -> void:
+func grasnar() -> void:
+	print("Quack!")
 	
-	# Variáveis usam memória volátil
-	# para armazenar dados
-	var a = 5
-	var b := 13.2
-	var c : String = "Guará"
+	
+	

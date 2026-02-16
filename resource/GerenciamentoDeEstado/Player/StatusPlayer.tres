@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="StatusPlayer" format=3 uid="uid://ddlgu4owc6h0i"]
+
+[ext_resource type="Script" uid="uid://boyboluujog8d" path="res://Player/StatusPlayer.gd" id="1_i5vf1"]
+
+[resource]
+script = ExtResource("1_i5vf1")
+vida = 10
+metadata/_custom_type_script = "uid://boyboluujog8d"

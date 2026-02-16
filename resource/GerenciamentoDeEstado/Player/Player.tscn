@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://rsl41fodn3j0"]
+
+[ext_resource type="Script" uid="uid://b5hexmfsrh7ai" path="res://Player/Player.gd" id="1_q3lat"]
+[ext_resource type="Texture2D" uid="uid://cqtlxa6yg4pqm" path="res://icon.svg" id="1_xhfnw"]
+[ext_resource type="Resource" uid="uid://ddlgu4owc6h0i" path="res://Player/StatusPlayer.tres" id="2_tok1r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
+size = Vector2(127, 126)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=866079974]
+script = ExtResource("1_q3lat")
+status_player = ExtResource("2_tok1r")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=927080126]
+texture = ExtResource("1_xhfnw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=935493097]
+position = Vector2(0.5, -1)
+shape = SubResource("RectangleShape2D_kpjcp")
+
+[node name="Timer" type="Timer" parent="." unique_id=2011841892]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

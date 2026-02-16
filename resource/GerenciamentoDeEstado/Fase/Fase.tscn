@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://nvbel5jqe2w4"]
+
+[ext_resource type="PackedScene" uid="uid://rsl41fodn3j0" path="res://Player/Player.tscn" id="1_a7447"]
+[ext_resource type="Script" uid="uid://b7fsi2juajmbx" path="res://Fase/Fase.gd" id="1_bjk7i"]
+[ext_resource type="Resource" uid="uid://ddlgu4owc6h0i" path="res://Player/StatusPlayer.tres" id="2_g0qna"]
+[ext_resource type="Texture2D" uid="uid://cqtlxa6yg4pqm" path="res://icon.svg" id="2_m8niq"]
+[ext_resource type="PackedScene" uid="uid://bm0qjrchwhsos" path="res://HUD/HUD.tscn" id="3_m8niq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kfd44"]
+size = Vector2(1155, 137)
+
+[node name="Fase" type="Node2D" unique_id=1810718483]
+script = ExtResource("1_bjk7i")
+status_player = ExtResource("2_g0qna")
+
+[node name="Player" parent="." unique_id=866079974 instance=ExtResource("1_a7447")]
+position = Vector2(228, 207)
+
+[node name="Chao" type="StaticBody2D" parent="." unique_id=1042205059]
+position = Vector2(2, 566)
+
+[node name="Sprite2D" type="Sprite2D" parent="Chao" unique_id=168750426]
+position = Vector2(579, 12.999986)
+scale = Vector2(9.015625, 1.109375)
+texture = ExtResource("2_m8niq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chao" unique_id=907993154]
+position = Vector2(576.5, 12.5)
+shape = SubResource("RectangleShape2D_kfd44")
+
+[node name="HUD" parent="." unique_id=206619767 instance=ExtResource("3_m8niq")]
